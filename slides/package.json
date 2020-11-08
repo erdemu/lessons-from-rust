@@ -11,6 +11,8 @@
     "styled-components": "^5.2.1"
   },
   "scripts": {
-    "start": "mdx-deck slide_text.mdx"
+    "start": "mdx-deck slide_text.mdx",
+    "pdf": "mdx-deck pdf slide_text.mdx",
+    "build": "mdx-deck build slide_text.mdx"
   }
 }
