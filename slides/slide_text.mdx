@@ -4,6 +4,7 @@ import { vsDark } from "@code-surfer/themes"
 import { default as Provider } from "./components/custom_provider.js"
 import "prismjs/components/prism-rust"
 import "prismjs/components/prism-toml"
+import "prismjs/components/prism-cmake"
 
 export const theme = themes.future
 export const provider = Provider
@@ -30,13 +31,11 @@ Everything on this presentation including these slides & code examples can be fo
 
 3. Cargo ( Package manager )
 
-4. Testing but built-in
+4. Code generation you love but built-in
 
-5. Code generation you love but built-in
+5. Linear types
 
-6. Linear types
-
-7. Concept of Lifetimes
+6. Some short information about the other ideas in the language
 
 ---
 
@@ -100,7 +99,7 @@ style={{
 <Steps>
     <li>Remember when I said there are features designed for our current way of programming</li>
     <li>Package managers are little programs that can download and install libraries developed by someone else for you</li>
-    <li>We don't have anything like that (as a strandard) in C++</li>
+    <li>We don't have anything like that (as a standard) in C++</li>
     <li>With Cargo you can do some interesting (non-centralised) stuff</li>
 </Steps>
 
@@ -355,7 +354,7 @@ gfx_window_glutin = "0.30"
 <Steps>
     <li>These are all very good but how we can achieve something similiar in C++ ?</li>
     <li>For the reminder of this section I will try to create same thing with using Cmake</li>
-    <li>Rationale : Cmake is the best thing we have in C/C++ to name as a standard </li>
+    <li>Rationale : Cmake is the best thing we have in C/C++ that remotely resembles a standard</li>
     <li>Cmake is a rich language/meta build system. We can achieve this easily by writing our own cmake scripts</li>
     <li>Ideally we really don't want to write custom scripts</li>
     <li>Who needs more stuff to maintain ?</li>
@@ -364,7 +363,1270 @@ gfx_window_glutin = "0.30"
 
 ---
 
+## I am envy of Cargo 
+
+<CodeSurfer theme={vsDark}>
+
+```cmake
+cmake_minimum_required(VERSION 3.18)
+
+project(cpm_example)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CPM_DOWNLOAD_VERSION 0.27.2) 
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(
+    NAME spdlog
+    GITHUB_REPOSITORY gabime/spdlog
+    VERSION 1.7.0)
+    
+add_executable(cpm_example src/main.cpp)
+
+target_link_libraries(cpm_example
+    spdlog)
+```
+
+```cmake 1:6
+cmake_minimum_required(VERSION 3.18)
+
+project(cpm_example)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CPM_DOWNLOAD_VERSION 0.27.2) 
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(
+    NAME spdlog
+    GITHUB_REPOSITORY gabime/spdlog
+    VERSION 1.7.0)
+    
+add_executable(cpm_example src/main.cpp)
+
+target_link_libraries(cpm_example
+    spdlog)
+```
+
+```cmake 7:8
+cmake_minimum_required(VERSION 3.18)
+
+project(cpm_example)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CPM_DOWNLOAD_VERSION 0.27.2) 
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(
+    NAME spdlog
+    GITHUB_REPOSITORY gabime/spdlog
+    VERSION 1.7.0)
+    
+add_executable(cpm_example src/main.cpp)
+
+target_link_libraries(cpm_example
+    spdlog)
+```
+
+```cmake 10
+cmake_minimum_required(VERSION 3.18)
+
+project(cpm_example)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CPM_DOWNLOAD_VERSION 0.27.2) 
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(
+    NAME spdlog
+    GITHUB_REPOSITORY gabime/spdlog
+    VERSION 1.7.0)
+    
+add_executable(cpm_example src/main.cpp)
+
+target_link_libraries(cpm_example
+    spdlog)
+```
+
+```cmake 12
+cmake_minimum_required(VERSION 3.18)
+
+project(cpm_example)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CPM_DOWNLOAD_VERSION 0.27.2) 
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(
+    NAME spdlog
+    GITHUB_REPOSITORY gabime/spdlog
+    VERSION 1.7.0)
+    
+add_executable(cpm_example src/main.cpp)
+
+target_link_libraries(cpm_example
+    spdlog)
+```
+
+```cmake 15
+cmake_minimum_required(VERSION 3.18)
+
+project(cpm_example)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CPM_DOWNLOAD_VERSION 0.27.2) 
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(
+    NAME spdlog
+    GITHUB_REPOSITORY gabime/spdlog
+    VERSION 1.7.0)
+    
+add_executable(cpm_example src/main.cpp)
+
+target_link_libraries(cpm_example
+    spdlog)
+```
+
+
+```cmake 17:20
+cmake_minimum_required(VERSION 3.18)
+
+project(cpm_example)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CPM_DOWNLOAD_VERSION 0.27.2) 
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(
+    NAME spdlog
+    GITHUB_REPOSITORY gabime/spdlog
+    VERSION 1.7.0)
+    
+add_executable(cpm_example src/main.cpp)
+
+target_link_libraries(cpm_example
+    spdlog)
+```
+
+```cmake 22
+cmake_minimum_required(VERSION 3.18)
+
+project(cpm_example)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CPM_DOWNLOAD_VERSION 0.27.2) 
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(
+    NAME spdlog
+    GITHUB_REPOSITORY gabime/spdlog
+    VERSION 1.7.0)
+    
+add_executable(cpm_example src/main.cpp)
+
+target_link_libraries(cpm_example
+    spdlog)
+```
+
+```cmake 24:25
+cmake_minimum_required(VERSION 3.18)
+
+project(cpm_example)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CPM_DOWNLOAD_VERSION 0.27.2) 
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(
+    NAME spdlog
+    GITHUB_REPOSITORY gabime/spdlog
+    VERSION 1.7.0)
+    
+add_executable(cpm_example src/main.cpp)
+
+target_link_libraries(cpm_example
+    spdlog)
+```
+
+```cmake 
+cmake_minimum_required(VERSION 3.18)
+
+project(cpm_example)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(CPM_DOWNLOAD_VERSION 0.27.2) 
+set(CPM_DOWNLOAD_LOCATION "${CMAKE_BINARY_DIR}/cmake/CPM_${CPM_DOWNLOAD_VERSION}.cmake")
+
+if(NOT (EXISTS ${CPM_DOWNLOAD_LOCATION}))
+    message(STATUS "Downloading CPM.cmake")
+    file(DOWNLOAD https://github.com/TheLartians/CPM.cmake/releases/download/v${CPM_DOWNLOAD_VERSION}/CPM.cmake ${CPM_DOWNLOAD_LOCATION})
+endif()
+
+include(${CPM_DOWNLOAD_LOCATION})
+
+CPMAddPackage(
+    NAME spdlog
+    GITHUB_REPOSITORY gabime/spdlog
+    VERSION 1.7.0)
+    
+add_executable(cpm_example src/main.cpp)
+
+target_link_libraries(cpm_example
+    spdlog)
+```
+
+</CodeSurfer>
+
+---
+
+# I am envy of cargo
+More examples of CPM Google Suite
+
+<CodeSurfer theme={vsDark}>
+
+```cmake 
+CPMAddPackage(
+  NAME benchmark
+  GITHUB_REPOSITORY google/benchmark
+  VERSION 1.4.1
+  OPTIONS
+    "BENCHMARK_ENABLE_TESTING Off"
+)
+
+if (benchmark_ADDED)
+  set_target_properties(benchmark PROPERTIES CXX_STANDARD 17) 
+endif()
+
+add_executable(Benchmark performance_tests.cpp)
+target_link_libraries(Benchmark benchmark)
+set_target_properties(Benchmark PROPERTIES CXX_STANDARD 17)
+
+CPMAddPackage(
+  NAME googletest
+  GITHUB_REPOSITORY google/googletest
+  GIT_TAG release-1.8.1
+  VERSION 1.8.1
+  OPTIONS
+      "INSTALL_GTEST OFF"
+      "gtest_force_shared_crt"
+)
+
+add_executable(TestSuite unit_tests.cpp)
+target_link_libraries(TestSuite gtest gtest_main gmock)
+set_target_properties(TestSuite PROPERTIES CXX_STANDARD 17)
+
+```
+
+```cmake  5:6
+CPMAddPackage(
+  NAME benchmark
+  GITHUB_REPOSITORY google/benchmark
+  VERSION 1.4.1
+  OPTIONS
+    "BENCHMARK_ENABLE_TESTING Off"
+)
+
+if (benchmark_ADDED)
+  set_target_properties(benchmark PROPERTIES CXX_STANDARD 17) 
+endif()
+
+add_executable(Benchmark performance_tests.cpp)
+target_link_libraries(Benchmark benchmark)
+set_target_properties(Benchmark PROPERTIES CXX_STANDARD 17)
+
+CPMAddPackage(
+  NAME googletest
+  GITHUB_REPOSITORY google/googletest
+  GIT_TAG release-1.8.1
+  VERSION 1.8.1
+  OPTIONS
+      "INSTALL_GTEST OFF"
+      "gtest_force_shared_crt"
+)
+
+add_executable(TestSuite unit_tests.cpp)
+target_link_libraries(TestSuite gtest gtest_main gmock)
+set_target_properties(TestSuite PROPERTIES CXX_STANDARD 17)
+
+```
+
+```cmake  9:11
+CPMAddPackage(
+  NAME benchmark
+  GITHUB_REPOSITORY google/benchmark
+  VERSION 1.4.1
+  OPTIONS
+    "BENCHMARK_ENABLE_TESTING Off"
+)
+
+if (benchmark_ADDED)
+  set_target_properties(benchmark PROPERTIES CXX_STANDARD 17) 
+endif()
+
+add_executable(Benchmark performance_tests.cpp)
+target_link_libraries(Benchmark benchmark)
+set_target_properties(Benchmark PROPERTIES CXX_STANDARD 17)
+
+CPMAddPackage(
+  NAME googletest
+  GITHUB_REPOSITORY google/googletest
+  GIT_TAG release-1.8.1
+  VERSION 1.8.1
+  OPTIONS
+      "INSTALL_GTEST OFF"
+      "gtest_force_shared_crt"
+)
+
+add_executable(TestSuite unit_tests.cpp)
+target_link_libraries(TestSuite gtest gtest_main gmock)
+set_target_properties(TestSuite PROPERTIES CXX_STANDARD 17)
+
+```
+
+```cmake  12:15
+CPMAddPackage(
+  NAME benchmark
+  GITHUB_REPOSITORY google/benchmark
+  VERSION 1.4.1
+  OPTIONS
+    "BENCHMARK_ENABLE_TESTING Off"
+)
+
+if (benchmark_ADDED)
+  set_target_properties(benchmark PROPERTIES CXX_STANDARD 17) 
+endif()
+
+add_executable(Benchmark performance_tests.cpp)
+target_link_libraries(Benchmark benchmark)
+set_target_properties(Benchmark PROPERTIES CXX_STANDARD 17)
+
+CPMAddPackage(
+  NAME googletest
+  GITHUB_REPOSITORY google/googletest
+  GIT_TAG release-1.8.1
+  VERSION 1.8.1
+  OPTIONS
+      "INSTALL_GTEST OFF"
+      "gtest_force_shared_crt"
+)
+
+add_executable(TestSuite unit_tests.cpp)
+target_link_libraries(TestSuite gtest gtest_main gmock)
+set_target_properties(TestSuite PROPERTIES CXX_STANDARD 17)
+
+```
+
+```cmake  19:24
+CPMAddPackage(
+  NAME benchmark
+  GITHUB_REPOSITORY google/benchmark
+  VERSION 1.4.1
+  OPTIONS
+    "BENCHMARK_ENABLE_TESTING Off"
+)
+
+if (benchmark_ADDED)
+  set_target_properties(benchmark PROPERTIES CXX_STANDARD 17) 
+endif()
+
+add_executable(Benchmark performance_tests.cpp)
+target_link_libraries(Benchmark benchmark)
+set_target_properties(Benchmark PROPERTIES CXX_STANDARD 17)
+
+CPMAddPackage(
+  NAME googletest
+  GITHUB_REPOSITORY google/googletest
+  GIT_TAG release-1.8.1
+  VERSION 1.8.1
+  OPTIONS
+      "INSTALL_GTEST OFF"
+      "gtest_force_shared_crt"
+)
+
+add_executable(TestSuite unit_tests.cpp)
+target_link_libraries(TestSuite gtest gtest_main gmock)
+set_target_properties(TestSuite PROPERTIES CXX_STANDARD 17)
+
+```
+
+```cmake
+CPMAddPackage(
+  NAME benchmark
+  GITHUB_REPOSITORY google/benchmark
+  VERSION 1.4.1
+  OPTIONS
+    "BENCHMARK_ENABLE_TESTING Off"
+)
+
+if (benchmark_ADDED)
+  set_target_properties(benchmark PROPERTIES CXX_STANDARD 17) 
+endif()
+
+add_executable(Benchmark performance_tests.cpp)
+target_link_libraries(Benchmark benchmark)
+set_target_properties(Benchmark PROPERTIES CXX_STANDARD 17)
+
+CPMAddPackage(
+  NAME googletest
+  GITHUB_REPOSITORY google/googletest
+  GIT_TAG release-1.8.1
+  VERSION 1.8.1
+  OPTIONS
+      "INSTALL_GTEST OFF"
+      "gtest_force_shared_crt"
+)
+
+add_executable(TestSuite unit_tests.cpp)
+target_link_libraries(TestSuite gtest gtest_main gmock)
+set_target_properties(TestSuite PROPERTIES CXX_STANDARD 17)
+
+```
+
+</CodeSurfer>
+
+---
+
+
+# I am envy of cargo
+More examples of CPM Boost
+
+<CodeSurfer theme={vsDark}>
+
+```cmake
+
+CPMFindPackage(
+  NAME Boost
+  GITHUB_REPOSITORY Orphis/boost-cmake
+  VERSION 1.67.0
+  FIND_PACKAGE_ARGUMENTS "COMPONENTS system"
+)
+
+target_link_libraries(CPMExampleBoost PRIVATE Boost::system pthread)
+
+```
+
+```cmake 4
+
+CPMFindPackage(
+  NAME Boost
+  GITHUB_REPOSITORY Orphis/boost-cmake
+  VERSION 1.67.0
+  FIND_PACKAGE_ARGUMENTS "COMPONENTS system"
+)
+
+target_link_libraries(CPMExampleBoost PRIVATE Boost::system pthread)
+
+```
+
+```cmake 6
+
+CPMFindPackage(
+  NAME Boost
+  GITHUB_REPOSITORY Orphis/boost-cmake
+  VERSION 1.67.0
+  FIND_PACKAGE_ARGUMENTS "COMPONENTS system"
+)
+
+target_link_libraries(CPMExampleBoost PRIVATE Boost::system pthread)
+
+```
+
+```cmake 9
+
+CPMFindPackage(
+  NAME Boost
+  GITHUB_REPOSITORY Orphis/boost-cmake
+  VERSION 1.67.0
+  FIND_PACKAGE_ARGUMENTS "COMPONENTS system"
+)
+
+target_link_libraries(CPMExampleBoost PRIVATE Boost::system pthread)
+
+```
+
+```cmake
+
+CPMFindPackage(
+  NAME Boost
+  GITHUB_REPOSITORY Orphis/boost-cmake
+  VERSION 1.67.0
+  FIND_PACKAGE_ARGUMENTS "COMPONENTS system"
+)
+
+target_link_libraries(CPMExampleBoost PRIVATE Boost::system pthread)
+
+```
+
+</CodeSurfer>
+
+---
+
+# I am envy of Cargo
+
+<Steps>
+    <li>Wasn't really hard was it ?</li>
+    <li>For minimum amount of work, we relieved ourselves from package setups. </li>
+    <li>CPM is not the only facility that enables this. We have other options like conan or vcpkg</li>
+    <li>Cmake also has a command called external_project</li>
+    <li>There are some shortcomings though, we don't get easy version control with those</li>
+    <li>Removing cache requires you to download the libs again</li>
+    <li>Try to solve this as an exercise :)</li>
+</Steps>
+
+---
+
+# I'm envy of built in code generation 
+# (Derive)
+
+---
+
+# I'm envy of built in code generation 
+
+<Steps>
+    <li>Rust have a powerful type system with polymorphism but no inheritence.</li>
+    <li>Then how they are doing polymorphism ?</li>
+    <li>Answer is Generics and Traits</li>
+    <li>You can think of the Generics as Templates and Traits as pure virtual Interfaces</li>
+    <li>Since the beggining rust had some capabilty to auto implement some traits</li>
+</Steps>
+
+---
+
+# I'm envy of built in code generation 
+
+<CodeSurfer theme={vsDark}>
+
+```rust
+
+#[derive(Debug)]
+struct Pet {
+    name: String,
+}
+
+use std::fmt;
+
+struct Pet {
+    name: String,
+}
+
+impl fmt::Debug for Pet {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Pet { name } => {
+                let mut debug_trait_builder = f.debug_struct("Pet");
+
+                let _ = debug_trait_builder.field("name", name);
+
+                debug_trait_builder.finish()
+            }
+        }
+    }
+}
+
+```
+
+```rust 3:5
+
+#[derive(Debug)]
+struct Pet {
+    name: String,
+}
+
+use std::fmt;
+
+struct Pet {
+    name: String,
+}
+
+impl fmt::Debug for Pet {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Pet { name } => {
+                let mut debug_trait_builder = f.debug_struct("Pet");
+
+                let _ = debug_trait_builder.field("name", name);
+
+                debug_trait_builder.finish()
+            }
+        }
+    }
+}
+
+```
+
+```rust 2
+
+#[derive(Debug)]
+struct Pet {
+    name: String,
+}
+
+use std::fmt;
+
+struct Pet {
+    name: String,
+}
+
+impl fmt::Debug for Pet {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Pet { name } => {
+                let mut debug_trait_builder = f.debug_struct("Pet");
+
+                let _ = debug_trait_builder.field("name", name);
+
+                debug_trait_builder.finish()
+            }
+        }
+    }
+}
+
+```
+
+```rust 7:25
+
+#[derive(Debug)]
+struct Pet {
+    name: String,
+}
+
+use std::fmt;
+
+struct Pet {
+    name: String,
+}
+
+impl fmt::Debug for Pet {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Pet { name } => {
+                let mut debug_trait_builder = f.debug_struct("Pet");
+
+                let _ = debug_trait_builder.field("name", name);
+
+                debug_trait_builder.finish()
+            }
+        }
+    }
+}
+
+```
+
+```rust 13:25
+
+#[derive(Debug)]
+struct Pet {
+    name: String,
+}
+
+use std::fmt;
+
+struct Pet {
+    name: String,
+}
+
+impl fmt::Debug for Pet {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Pet { name } => {
+                let mut debug_trait_builder = f.debug_struct("Pet");
+
+                let _ = debug_trait_builder.field("name", name);
+
+                debug_trait_builder.finish()
+            }
+        }
+    }
+}
+
+```
+
+```rust
+
+#[derive(Debug)]
+struct Pet {
+    name: String,
+}
+
+use std::fmt;
+
+struct Pet {
+    name: String,
+}
+
+impl fmt::Debug for Pet {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Pet { name } => {
+                let mut debug_trait_builder = f.debug_struct("Pet");
+
+                let _ = debug_trait_builder.field("name", name);
+
+                debug_trait_builder.finish()
+            }
+        }
+    }
+}
+
+```
+
+</CodeSurfer>
+
+---
+
+# I'm envy of built in code generation
+
+<Steps>
+    <li>This is really, really cool</li>
+    <li>But until rust 1.15 this is only available for basic traits, that are _not_ user defined </li>
+    <li>These were traits like Debug, Copy, Comparision or Clone</li>
+    <li>After 1.15 you can use this powerful feature for your own libs</li>
+    <li>Let's check the same thing for a popular rust lib serde</li>
+</Steps>
+
+---
+
+# I'm envy of built in code generation 
+
+<CodeSurfer theme={vsDark}>
+
+```rust
+
+use serde::{Deserialize, Serialize};
+use serde_json::Result;
+
+#[derive(Serialize, Deserialize)]
+struct Person {
+    name: String,
+    age: u8,
+    phones: Vec<String>,
+}
+
+fn typed_example() -> Result<()> {
+    // Some JSON input data as a &str. Maybe this comes from the user.
+    let data = r#"
+        {
+            "name": "John Doe",
+            "age": 43,
+            "phones": [
+                "+44 1234567",
+                "+44 2345678"
+            ]
+        }"#;
+
+    // Parse the string of data into a Person object. 
+    let p: Person = serde_json::from_str(data)?;
+
+    // Do things just like with any other Rust data structure.
+    println!("Please call {} at the number {}", p.name, p.phones[0]);
+
+    Ok(())
+}
+
+```
+
+```rust 15:22
+
+use serde::{Deserialize, Serialize};
+use serde_json::Result;
+
+#[derive(Serialize, Deserialize)]
+struct Person {
+    name: String,
+    age: u8,
+    phones: Vec<String>,
+}
+
+fn typed_example() -> Result<()> {
+    // Some JSON input data as a &str. Maybe this comes from the user.
+    let data = r#"
+        {
+            "name": "John Doe",
+            "age": 43,
+            "phones": [
+                "+44 1234567",
+                "+44 2345678"
+            ]
+        }"#;
+
+    // Parse the string of data into a Person object. 
+    let p: Person = serde_json::from_str(data)?;
+
+    // Do things just like with any other Rust data structure.
+    println!("Please call {} at the number {}", p.name, p.phones[0]);
+
+    Ok(())
+}
+
+```
+
+```rust 6:10
+
+use serde::{Deserialize, Serialize};
+use serde_json::Result;
+
+#[derive(Serialize, Deserialize)]
+struct Person {
+    name: String,
+    age: u8,
+    phones: Vec<String>,
+}
+
+fn typed_example() -> Result<()> {
+    // Some JSON input data as a &str. Maybe this comes from the user.
+    let data = r#"
+        {
+            "name": "John Doe",
+            "age": 43,
+            "phones": [
+                "+44 1234567",
+                "+44 2345678"
+            ]
+        }"#;
+
+    // Parse the string of data into a Person object. 
+    let p: Person = serde_json::from_str(data)?;
+
+    // Do things just like with any other Rust data structure.
+    println!("Please call {} at the number {}", p.name, p.phones[0]);
+
+    Ok(())
+}
+
+```
+
+```rust 5
+
+use serde::{Deserialize, Serialize};
+use serde_json::Result;
+
+#[derive(Serialize, Deserialize)]
+struct Person {
+    name: String,
+    age: u8,
+    phones: Vec<String>,
+}
+
+fn typed_example() -> Result<()> {
+    // Some JSON input data as a &str. Maybe this comes from the user.
+    let data = r#"
+        {
+            "name": "John Doe",
+            "age": 43,
+            "phones": [
+                "+44 1234567",
+                "+44 2345678"
+            ]
+        }"#;
+
+    // Parse the string of data into a Person object. 
+    let p: Person = serde_json::from_str(data)?;
+
+    // Do things just like with any other Rust data structure.
+    println!("Please call {} at the number {}", p.name, p.phones[0]);
+
+    Ok(())
+}
+
+```
+
+```rust 24:28
+
+use serde::{Deserialize, Serialize};
+use serde_json::Result;
+
+#[derive(Serialize, Deserialize)]
+struct Person {
+    name: String,
+    age: u8,
+    phones: Vec<String>,
+}
+
+fn typed_example() -> Result<()> {
+    // Some JSON input data as a &str. Maybe this comes from the user.
+    let data = r#"
+        {
+            "name": "John Doe",
+            "age": 43,
+            "phones": [
+                "+44 1234567",
+                "+44 2345678"
+            ]
+        }"#;
+
+    // Parse the string of data into a Person object. 
+    let p: Person = serde_json::from_str(data)?;
+
+    // Do things just like with any other Rust data structure.
+    println!("Please call {} at the number {}", p.name, p.phones[0]);
+
+    Ok(())
+}
+
+```
+
+```rust
+
+use serde::{Deserialize, Serialize};
+use serde_json::Result;
+
+#[derive(Serialize, Deserialize)]
+struct Person {
+    name: String,
+    age: u8,
+    phones: Vec<String>,
+}
+
+fn typed_example() -> Result<()> {
+    // Some JSON input data as a &str. Maybe this comes from the user.
+    let data = r#"
+        {
+            "name": "John Doe",
+            "age": 43,
+            "phones": [
+                "+44 1234567",
+                "+44 2345678"
+            ]
+        }"#;
+
+    // Parse the string of data into a Person object. 
+    let p: Person = serde_json::from_str(data)?;
+
+    // Do things just like with any other Rust data structure.
+    println!("Please call {} at the number {}", p.name, p.phones[0]);
+
+    Ok(())
+}
+
+```
+
+</CodeSurfer>
+
+---
+
+# I'm envy of built in code generation 
+
+<Steps>
+    <li>This is really, really, reaaaaly cool</li>
+    <li>How can we achieve the same thing with C++ ?</li>
+    <li>Approach is to use a tool to modify the source</li>
+    <li>Best place to run this tool is from the build system</li>
+    <li>We don't want to add generated file into version control</li>
+    <li>So tool should create the new file and build system should only build that file</li>
+    <li>Once again our tool of choice is Cmake</li>
+    <li>And lets make a "Deriver" using our trusty Python Interpreter</li>
+</Steps>
+
+---
+
+# Codegen (Build system)
+
+Here is the Cmake file
+
+<CodeSurfer theme={vsDark}>
+
+```cmake
+
+cmake_minimum_required(VERSION 3.17)
+project(generator)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(py_cmd ${CMAKE_CURRENT_SOURCE_DIR}/deriver.py)
+
+add_custom_command(
+        OUTPUT
+            ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h
+        COMMAND python ${py_cmd} -i ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h -o ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_executable(generator main.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h)
+
+```
+
+```cmake 9:15
+
+cmake_minimum_required(VERSION 3.17)
+project(generator)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(py_cmd ${CMAKE_CURRENT_SOURCE_DIR}/deriver.py)
+
+add_custom_command(
+        OUTPUT
+            ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h
+        COMMAND python ${py_cmd} -i ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h -o ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_executable(generator main.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h)
+
+```
+
+```cmake 12
+
+cmake_minimum_required(VERSION 3.17)
+project(generator)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(py_cmd ${CMAKE_CURRENT_SOURCE_DIR}/deriver.py)
+
+add_custom_command(
+        OUTPUT
+            ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h
+        COMMAND python ${py_cmd} -i ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h -o ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_executable(generator main.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h)
+
+```
+
+```cmake 13
+
+cmake_minimum_required(VERSION 3.17)
+project(generator)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(py_cmd ${CMAKE_CURRENT_SOURCE_DIR}/deriver.py)
+
+add_custom_command(
+        OUTPUT
+            ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h
+        COMMAND python ${py_cmd} -i ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h -o ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_executable(generator main.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h)
+
+```
+
+```cmake 7
+
+cmake_minimum_required(VERSION 3.17)
+project(generator)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(py_cmd ${CMAKE_CURRENT_SOURCE_DIR}/deriver.py)
+
+add_custom_command(
+        OUTPUT
+            ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h
+        COMMAND python ${py_cmd} -i ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h -o ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_executable(generator main.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h)
+
+```
+
+```cmake
+
+cmake_minimum_required(VERSION 3.17)
+project(generator)
+
+set(CMAKE_CXX_STANDARD 17)
+
+set(py_cmd ${CMAKE_CURRENT_SOURCE_DIR}/deriver.py)
+
+add_custom_command(
+        OUTPUT
+            ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h
+        COMMAND python ${py_cmd} -i ${CMAKE_CURRENT_SOURCE_DIR}/aHeaderFile.h -o ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+)
+
+add_executable(generator main.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h)
+
+```
+
+</CodeSurfer>
+
+---
+
+
+# Codegen (Build system)
+
+<CodeSurfer theme={vsDark}>
+
+```python
+
+#!/usr/bin/python
+
+import getopt
+import sys
+import shutil
+
+
+def generate_file(input_file, output_file):
+    shutil.copyfile(input_file, output_file)
+
+
+def main(argv):
+    input_file = ''
+    output_file = ''
+    try:
+        opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
+    except getopt.GetoptError:
+        print 'deriver.py -i <inputfile> -o <outputfile>'
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ("-i", "--ifile"):
+            input_file = arg
+        elif opt in ("-o", "--ofile"):
+            output_file = arg
+    print 'Input file is "', input_file
+    print 'Output file is "', output_file
+    generate_file(input_file, output_file)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
+
+```
+
+```python 9:10
+
+#!/usr/bin/python
+
+import getopt
+import sys
+import shutil
+
+
+def generate_file(input_file, output_file):
+    shutil.copyfile(input_file, output_file)
+
+
+def main(argv):
+    input_file = ''
+    output_file = ''
+    try:
+        opts, args = getopt.getopt(argv, "hi:o:", ["ifile=", "ofile="])
+    except getopt.GetoptError:
+        print 'deriver.py -i <inputfile> -o <outputfile>'
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ("-i", "--ifile"):
+            input_file = arg
+        elif opt in ("-o", "--ofile"):
+            output_file = arg
+    print 'Input file is "', input_file
+    print 'Output file is "', output_file
+    generate_file(input_file, output_file)
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
+
+```
+
+</CodeSurfer>
+
+---
+
+# I'm envy of built in code generation
+
+<Steps>
+    <li>Now we can run stuff when a source has changed. </li>
+    <li>You can modify the source as you like, your binary only depends on generated source </li>
+    <li>Before I offend you, I don't claim this is the best way of doing this.</li>
+    <li>It is just a simple way :)</li>
+    <li>As a exercise, try to enwrap this in a loop for all the found resources</li>
+    <li>There are great extensibility in cmake on when your scripts needs to be run</li>
+    <li>If you are so inclined you can run them just before link or after some event</li>
+    <li>Check the official docs for extra info</li>
+</Steps>
+
+---
+
 ## The End
 
 Got any questions ?
+
+---
 
