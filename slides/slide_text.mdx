@@ -11,6 +11,8 @@ export const provider = Provider
 
 
 import rust_logo from './resources/rust_logo.png';
+import meme from './resources/meme.png'
+import clones from './resources/clones.png'
 
 # Welcome to 
 # The Lessons from Rust for C++ Developers
@@ -1621,6 +1623,536 @@ if __name__ == "__main__":
     <li>If you are so inclined you can run them just before link or after some event</li>
     <li>Check the official docs for extra info</li>
 </Steps>
+
+---
+
+# I'm envy of linear typesystem of Rust
+
+---
+
+
+# I'm envy of linear typesystem of Rust
+
+<Steps>
+    <li>Okay great but what is a linear typesystem ? </li>
+
+> Values belonging to a linear type must be used exactly once: like the world, they can not be duplicated or destroyed. Such values require no reference counting or garbage collection
+***
+Linear types can change the world!, Philip Wadler
+  
+ 
+</Steps>
+
+---
+
+# I'm envy of linear typesystem of Rust
+
+<CodeSurfer theme={vsDark}>
+
+
+```rust
+
+let x = vec![1, 2, 3];
+let y = x;           
+println!("{:?}", x); 
+pritnln!("{:?}", y);  
+
+```
+
+```rust 2
+
+let x = vec![1, 2, 3];
+let y = x;           
+println!("{:?}", x); 
+pritnln!("{:?}", y);  
+
+```
+
+```rust 3
+
+let x = vec![1, 2, 3];
+let y = x;           
+println!("{:?}", x); 
+pritnln!("{:?}", y);  
+
+```
+
+```rust 4:5
+
+let x = vec![1, 2, 3];
+let y = x;           
+println!("{:?}", x); 
+pritnln!("{:?}", y);  
+
+```
+
+```rust 4:5
+
+let x = vec![1, 2, 3];
+let y = x;           
+println!("{:?}", x); // ERROR: use of moved value x
+pritnln!("{:?}", y); // OK 
+
+```
+
+
+```rust 3:5
+
+let x = vec![1, 2, 3];
+let y = x;           // x is not copied but moved here
+println!("{:?}", x); // ERROR: use of moved value x
+pritnln!("{:?}", y); // OK 
+
+```
+
+</CodeSurfer>
+
+---
+
+# I'm envy of linear typesystem of Rust
+
+Why this is soo important ?
+
+<img src={meme} 
+style={{
+    width: '800px',
+    height: '800px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }}
+/>
+
+
+---
+
+# I'm envy of linear typesystem of Rust
+
+Lets see what is going on in depths of C++
+
+<CodeSurfer theme={vsDark}>
+
+```cpp
+
+istream_sequence<std::string> in{std::cin};
+
+std::string result;
+for (const auto& token: in) {
+   result.append(token); 
+}
+
+```
+
+```cpp 2
+
+istream_sequence<std::string> in{std::cin};
+
+std::string result;
+for (const auto& token: in) {
+   result.append(token); 
+}
+
+```cpp 7
+
+istream_sequence<std::string> in{std::cin};
+
+std::string result;
+for (const auto& token: in) {
+   result.append(token); 
+}
+
+```
+
+```cpp 6:8
+
+istream_sequence<std::string> in{std::cin};
+
+std::string result;
+for (const auto& token: in) {
+   result.append(token); 
+}
+
+```
+
+```cpp
+
+istream_sequence<std::string> in{std::cin};
+
+const auto result = accumulate(in, string{});
+
+```
+
+```cpp
+
+template <typename InputIt, typename T>
+T accumulate(InputIt first, InputIt last, T init)
+{
+    while (first != last) { 
+        init = init + *first; ++first;
+    }
+    return init;
+}
+
+```
+
+```cpp 6
+
+template <typename InputIt, typename T>
+T accumulate(InputIt first, InputIt last, T init)
+{
+    while (first != last) { 
+        init = init + *first; ++first;
+    }
+    return init;
+}
+
+```
+
+</CodeSurfer>
+
+---
+
+# I'm Envy of Linear typesystem of rust
+
+This is what is happening
+
+<img src={clones} 
+style={{
+    width: '600px',
+    height: '600px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  }}
+/>
+
+---
+
+# I'm Envy of Linear typesystem of rust
+
+From C++ 20 and onwards
+
+<CodeSurfer theme={vsDark}>
+
+```cpp 
+
+template <typename InputIt, typename T>
+T accumulate(InputIt first, InputIt last, T init)
+{
+    while (first != last) {
+        init = std::move(init) + *first; ++first;
+    }
+    return init;
+}
+
+```
+
+```cpp 6
+
+template <typename InputIt, typename T>
+T accumulate(InputIt first, InputIt last, T init)
+{
+    while (first != last) {
+        init = std::move(init) + *first; ++first;
+    }
+    return init;
+}
+
+```
+
+</CodeSurfer>
+
+---
+
+# I'm Envy of Linear typesystem of rust
+
+
+<Steps>
+    <li>Okay you got my attention</li>
+    <li>Lets implement similiar functionality with C++ 20 Concepts</li>
+    <li>We will let compiler to do our job !!</li>
+    <li>Why stop at a concept ? Lets create a wrapper also !!</li>
+</Steps>
+
+---
+
+# I'm Envy of Linear typesystem of rust
+
+
+<CodeSurfer theme={vsDark}>
+
+```cpp 
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_usable_as_v =
+        std::is_nothrow_constructible_v<T, U> and
+        std::is_nothrow_assignable_v<T&, U> and 
+        std::is_nothrow_convertible_v<U, T>;
+}
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_unusable_as_v =
+        not std::is_constructible_v<T, U> and
+        not std::is_assignable_v<T&, U> and 
+        not std::is_convertible_v<U, T>;
+}
+
+template <typename T> 
+concept Linear =
+    std::is_nothrow_destructible_v<T> and 
+    detail::linear_usable_as<T, T> and
+    detail::linear_usable_as<T, T&&> and
+    
+    detail::linear_unusable_as<T, T&> and 
+    detail::linear_unusable_as<T, const T&> and 
+    detail::linear_unusable_as<T, const T>;
+
+Linear ptr = std::make_unique<person>(); // OK 
+Linear str = ”Hello world”s; // ERROR
+
+```
+
+```cpp 16:24
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_usable_as_v =
+        std::is_nothrow_constructible_v<T, U> and
+        std::is_nothrow_assignable_v<T&, U> and 
+        std::is_nothrow_convertible_v<U, T>;
+}
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_unusable_as_v =
+        not std::is_constructible_v<T, U> and
+        not std::is_assignable_v<T&, U> and 
+        not std::is_convertible_v<U, T>;
+}
+
+template <typename T> 
+concept Linear =
+    std::is_nothrow_destructible_v<T> and 
+    detail::linear_usable_as<T, T> and
+    detail::linear_usable_as<T, T&&> and
+    
+    detail::linear_unusable_as<T, T&> and 
+    detail::linear_unusable_as<T, const T&> and 
+    detail::linear_unusable_as<T, const T>;
+
+Linear ptr = std::make_unique<person>(); // OK 
+Linear str = ”Hello world”s; // ERROR
+
+```
+
+```cpp 2:7
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_usable_as_v =
+        std::is_nothrow_constructible_v<T, U> and
+        std::is_nothrow_assignable_v<T&, U> and 
+        std::is_nothrow_convertible_v<U, T>;
+}
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_unusable_as_v =
+        not std::is_constructible_v<T, U> and
+        not std::is_assignable_v<T&, U> and 
+        not std::is_convertible_v<U, T>;
+}
+
+template <typename T> 
+concept Linear =
+    std::is_nothrow_destructible_v<T> and 
+    detail::linear_usable_as<T, T> and
+    detail::linear_usable_as<T, T&&> and
+    
+    detail::linear_unusable_as<T, T&> and 
+    detail::linear_unusable_as<T, const T&> and 
+    detail::linear_unusable_as<T, const T>;
+
+Linear ptr = std::make_unique<person>(); // OK 
+Linear str = ”Hello world”s; // ERROR
+
+```
+
+```cpp 9:14
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_usable_as_v =
+        std::is_nothrow_constructible_v<T, U> and
+        std::is_nothrow_assignable_v<T&, U> and 
+        std::is_nothrow_convertible_v<U, T>;
+}
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_unusable_as_v =
+        not std::is_constructible_v<T, U> and
+        not std::is_assignable_v<T&, U> and 
+        not std::is_convertible_v<U, T>;
+}
+
+template <typename T> 
+concept Linear =
+    std::is_nothrow_destructible_v<T> and 
+    detail::linear_usable_as<T, T> and
+    detail::linear_usable_as<T, T&&> and
+    
+    detail::linear_unusable_as<T, T&> and 
+    detail::linear_unusable_as<T, const T&> and 
+    detail::linear_unusable_as<T, const T>;
+
+Linear ptr = std::make_unique<person>(); // OK 
+Linear str = ”Hello world”s; // ERROR
+
+```
+
+
+```cpp 16:24
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_usable_as_v =
+        std::is_nothrow_constructible_v<T, U> and
+        std::is_nothrow_assignable_v<T&, U> and 
+        std::is_nothrow_convertible_v<U, T>;
+}
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_unusable_as_v =
+        not std::is_constructible_v<T, U> and
+        not std::is_assignable_v<T&, U> and 
+        not std::is_convertible_v<U, T>;
+}
+
+template <typename T> 
+concept Linear =
+    std::is_nothrow_destructible_v<T> and 
+    detail::linear_usable_as<T, T> and
+    detail::linear_usable_as<T, T&&> and
+    
+    detail::linear_unusable_as<T, T&> and 
+    detail::linear_unusable_as<T, const T&> and 
+    detail::linear_unusable_as<T, const T>;
+
+Linear ptr = std::make_unique<person>(); // OK 
+Linear str = ”Hello world”s; // ERROR
+
+```
+
+```cpp 26:27
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_usable_as_v =
+        std::is_nothrow_constructible_v<T, U> and
+        std::is_nothrow_assignable_v<T&, U> and 
+        std::is_nothrow_convertible_v<U, T>;
+}
+
+namespace detail {
+template <typename T, typename U> constexpr bool linear_unusable_as_v =
+        not std::is_constructible_v<T, U> and
+        not std::is_assignable_v<T&, U> and 
+        not std::is_convertible_v<U, T>;
+}
+
+template <typename T> 
+concept Linear =
+    std::is_nothrow_destructible_v<T> and 
+    detail::linear_usable_as<T, T> and
+    detail::linear_usable_as<T, T&&> and
+    
+    detail::linear_unusable_as<T, T&> and 
+    detail::linear_unusable_as<T, const T&> and 
+    detail::linear_unusable_as<T, const T>;
+
+Linear ptr = std::make_unique<person>(); // OK 
+Linear str = ”Hello world”s; // ERROR
+
+```
+
+</CodeSurfer>
+
+---
+
+# I'm Envy of Linear typesystem of rust
+
+
+<CodeSurfer theme={vsDark}>
+
+```cpp
+
+class linear_wrapper { 
+    
+public:
+    
+    linear_wrapper(T&& value)
+    : m_value{std::move(value)}
+    {
+
+    }
+    
+private:
+    
+    T m_value;
+};
+
+```
+
+```cpp
+
+class linear_wrapper { 
+
+public:
+    
+    linear_wrapper(T&& value)
+    : m_value{std::move(value)}
+    {
+
+    }
+
+    linear_wrapper(const linear_wrapper&) = delete;
+    linear_wrapper(linear_wrapper&&) = default; // noexcept
+
+    linear_wrapper& operator=(const linear_wrapper&) = delete;
+    linear_wrapper& operator=(linear_wrapper&&) = default; // noexcept
+    
+private:
+    
+    T m_value;
+};
+
+```
+
+
+```cpp
+
+class linear_wrapper { 
+
+public:
+    
+    linear_wrapper(T&& value)
+    : m_value{std::move(value)}
+    {
+
+    }
+
+    linear_wrapper(const linear_wrapper&) = delete;
+    linear_wrapper(linear_wrapper&&) = default; // noexcept
+
+    linear_wrapper& operator=(const linear_wrapper&) = delete;
+    linear_wrapper& operator=(linear_wrapper&&) = default; // noexcept
+
+
+    [[nodiscard]] T&& get() && noexcept {
+        return std::move(value);
+    }
+    
+private:
+    
+    T m_value;
+};
+
+```
+
+</CodeSurfer>
 
 ---
 
