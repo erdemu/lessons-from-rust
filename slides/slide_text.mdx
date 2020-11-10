@@ -37,8 +37,6 @@ Everything on this presentation including these slides & code examples can be fo
 
 5. Linear types
 
-6. Some short information about the other ideas in the language
-
 ---
 
 ## What is Rust ? 
@@ -82,21 +80,22 @@ style={{
 
 <Steps>
     <li>Okay okay, I am admitting that I am a bit of in love with this language.</li>
-    <li>... and maybe a bit of envy of its features</li>
-    <li>This meeting is about some features in rust that I personally think very good</li>
+    <li>... and maybe a bit of envious of its features</li>
+    <li>This meeting is about some features in rust that I personally think very cool</li>
     <li>And I want to show them to you and maybe try to do something similiar in modern C++.</li>
     <li>If you are interested in Rust and thinking this is a Rust 101 i'm sorry but this is not it.</li>
-    <li>But I hope there are still much quality content here, so don't leave yet</li>
+    <li>Shameless Self Advertisement</li>
+    <li>And a full disclaimer</li>
 </Steps>
 
 ---
 
-# I am envy of Cargo 
+# I am envious of Cargo 
 # ( Their package manager )
 
 ---
 
-## I am envy of Cargo ( Their package manager )
+## I am envious of Cargo ( Their package manager )
 
 <Steps>
     <li>Remember when I said there are features designed for our current way of programming</li>
@@ -107,7 +106,7 @@ style={{
 
 ---
 
-## I am envy of Cargo ( Their package manager )
+## I am envious of Cargo ( Their package manager )
 
 This is config.yml file for a Rust module
 
@@ -351,7 +350,7 @@ gfx_window_glutin = "0.30"
 
 ---
 
-## I am envy of Cargo ( Their package manager )
+## I am envious of Cargo ( Their package manager )
 
 <Steps>
     <li>These are all very good but how we can achieve something similiar in C++ ?</li>
@@ -365,7 +364,7 @@ gfx_window_glutin = "0.30"
 
 ---
 
-## I am envy of Cargo 
+## I am envious of Cargo 
 
 <CodeSurfer theme={vsDark}>
 
@@ -654,7 +653,7 @@ target_link_libraries(cpm_example
 
 ---
 
-# I am envy of cargo
+# I am envious of cargo
 More examples of CPM Google Suite
 
 <CodeSurfer theme={vsDark}>
@@ -862,7 +861,7 @@ set_target_properties(TestSuite PROPERTIES CXX_STANDARD 17)
 ---
 
 
-# I am envy of cargo
+# I am envious of cargo
 More examples of CPM Boost
 
 <CodeSurfer theme={vsDark}>
@@ -936,7 +935,7 @@ target_link_libraries(CPMExampleBoost PRIVATE Boost::system pthread)
 
 ---
 
-# I am envy of Cargo
+# I am envious of Cargo
 
 <Steps>
     <li>Wasn't really hard was it ?</li>
@@ -950,12 +949,12 @@ target_link_libraries(CPMExampleBoost PRIVATE Boost::system pthread)
 
 ---
 
-# I'm envy of built in code generation 
+# I'm envious of built in code generation 
 # (Derive)
 
 ---
 
-# I'm envy of built in code generation 
+# I'm envious of built in code generation 
 
 <Steps>
     <li>Rust have a powerful type system with polymorphism but no inheritence.</li>
@@ -967,28 +966,149 @@ target_link_libraries(CPMExampleBoost PRIVATE Boost::system pthread)
 
 ---
 
-# I'm envy of built in code generation 
+# I'm envious of built in code generation 
+
+<CodeSurfer theme={vsDark}>
+
+
+```rust
+
+trait Pet
+{
+    fn make_sound(&self);
+}
+
+```
+
+
+```rust
+
+trait Pet
+{
+    fn make_sound(&self);
+}
+
+struct Cat
+{
+    name: String;
+}
+
+struct Dog
+{
+    name: String;
+}
+
+```
+
+```rust
+
+trait Pet
+{
+    fn make_sound(&self);
+}
+
+struct Cat
+{
+    name: String;
+}
+
+struct Dog
+{
+    name: String;
+}
+
+impl Pet for Cat
+{
+    fn make_sound(&self)
+    {
+        // Do meow !
+    }
+}
+
+impl Pet for Dog
+{
+    fn make_sound(&self)
+    {
+        // Do bark !
+    }
+}
+
+```
+
+
+```rust 21, 29
+
+trait Pet
+{
+    fn make_sound(&self);
+}
+
+struct Cat
+{
+    name: String;
+}
+
+struct Dog
+{
+    name: String;
+}
+
+impl Pet for Cat
+{
+    fn make_sound(&self)
+    {
+        // Do meow !
+    }
+}
+
+impl Pet for Dog
+{
+    fn make_sound(&self)
+    {
+        // Do bark !
+    }
+}
+
+```
+
+</CodeSurfer>
+
+---
+
+# I'm envious of built in code generation 
 
 <CodeSurfer theme={vsDark}>
 
 ```rust
 
-#[derive(Debug)]
-struct Pet {
+struct Dog {
     name: String,
 }
+
+```
+
+```rust 2
+
+#[derive(Debug)]
+struct Dog {
+    name: String,
+}
+
+```
+
+```rust
 
 use std::fmt;
 
-struct Pet {
+struct Dog {
     name: String,
 }
 
-impl fmt::Debug for Pet {
+impl fmt::Debug for Dog {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Pet { name } => {
-                let mut debug_trait_builder = f.debug_struct("Pet");
+            Dog { name } => {
+                let mut debug_trait_builder = f.debug_struct("Dog");
 
                 let _ = debug_trait_builder.field("name", name);
 
@@ -1003,21 +1123,21 @@ impl fmt::Debug for Pet {
 ```rust 3:5
 
 #[derive(Debug)]
-struct Pet {
+struct Dog {
     name: String,
 }
 
 use std::fmt;
 
-struct Pet {
+struct Dog {
     name: String,
 }
 
-impl fmt::Debug for Pet {
+impl fmt::Debug for Dog {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Pet { name } => {
-                let mut debug_trait_builder = f.debug_struct("Pet");
+            Dog { name } => {
+                let mut debug_trait_builder = f.debug_struct("Dog");
 
                 let _ = debug_trait_builder.field("name", name);
 
@@ -1032,21 +1152,21 @@ impl fmt::Debug for Pet {
 ```rust 2
 
 #[derive(Debug)]
-struct Pet {
+struct Dog {
     name: String,
 }
 
 use std::fmt;
 
-struct Pet {
+struct Dog {
     name: String,
 }
 
-impl fmt::Debug for Pet {
+impl fmt::Debug for Dog {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Pet { name } => {
-                let mut debug_trait_builder = f.debug_struct("Pet");
+            Dog { name } => {
+                let mut debug_trait_builder = f.debug_struct("Dog");
 
                 let _ = debug_trait_builder.field("name", name);
 
@@ -1061,21 +1181,21 @@ impl fmt::Debug for Pet {
 ```rust 7:25
 
 #[derive(Debug)]
-struct Pet {
+struct Dog {
     name: String,
 }
 
 use std::fmt;
 
-struct Pet {
+struct Dog {
     name: String,
 }
 
-impl fmt::Debug for Pet {
+impl fmt::Debug for Dog {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Pet { name } => {
-                let mut debug_trait_builder = f.debug_struct("Pet");
+            Dog { name } => {
+                let mut debug_trait_builder = f.debug_struct("Dog");
 
                 let _ = debug_trait_builder.field("name", name);
 
@@ -1090,21 +1210,21 @@ impl fmt::Debug for Pet {
 ```rust 13:25
 
 #[derive(Debug)]
-struct Pet {
+struct Dog {
     name: String,
 }
 
 use std::fmt;
 
-struct Pet {
+struct Dog {
     name: String,
 }
 
-impl fmt::Debug for Pet {
+impl fmt::Debug for Dog {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Pet { name } => {
-                let mut debug_trait_builder = f.debug_struct("Pet");
+            Dog { name } => {
+                let mut debug_trait_builder = f.debug_struct("Dog");
 
                 let _ = debug_trait_builder.field("name", name);
 
@@ -1119,21 +1239,21 @@ impl fmt::Debug for Pet {
 ```rust
 
 #[derive(Debug)]
-struct Pet {
+struct Dog {
     name: String,
 }
 
 use std::fmt;
 
-struct Pet {
+struct Dog {
     name: String,
 }
 
-impl fmt::Debug for Pet {
+impl fmt::Debug for Dog {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Pet { name } => {
-                let mut debug_trait_builder = f.debug_struct("Pet");
+            Dog { name } => {
+                let mut debug_trait_builder = f.debug_struct("Dog");
 
                 let _ = debug_trait_builder.field("name", name);
 
@@ -1149,7 +1269,7 @@ impl fmt::Debug for Pet {
 
 ---
 
-# I'm envy of built in code generation
+# I'm envious of built in code generation
 
 <Steps>
     <li>This is really, really cool</li>
@@ -1161,7 +1281,7 @@ impl fmt::Debug for Pet {
 
 ---
 
-# I'm envy of built in code generation 
+# I'm envious of built in code generation 
 
 <CodeSurfer theme={vsDark}>
 
@@ -1379,7 +1499,7 @@ fn typed_example() -> Result<()> {
 
 ---
 
-# I'm envy of built in code generation 
+# I'm envious of built in code generation 
 
 <Steps>
     <li>This is really, really, reaaaaly cool</li>
@@ -1391,6 +1511,37 @@ fn typed_example() -> Result<()> {
     <li>Once again our tool of choice is Cmake</li>
     <li>And lets make a "Deriver" using our trusty Python Interpreter</li>
 </Steps>
+
+---
+
+# Codegen 
+
+<CodeSurfer theme={vsDark}>
+
+```cpp
+
+struct Person
+{
+    std::string name;
+    uint8_t age;
+    std::vector<std::string> phones;
+};
+
+```
+
+
+```cpp 2
+
+//# deriveInterface! ( json_serialize, json_deserialize )
+struct Person
+{
+    std::string name;
+    uint8_t age;
+    std::vector<std::string> phones;
+};
+
+```
+</CodeSurfer>
 
 ---
 
@@ -1542,11 +1693,11 @@ add_executable(generator main.cpp ${CMAKE_CURRENT_BINARY_DIR}/generated_header.h
 import getopt
 import sys
 import shutil
-
+import json_interface_generator
 
 def generate_file(input_file, output_file):
     shutil.copyfile(input_file, output_file)
-
+    json_interface_generator.process_file(output_file)
 
 def main(argv):
     input_file = ''
@@ -1571,18 +1722,18 @@ if __name__ == "__main__":
 
 ```
 
-```python 9:10
+```python 9:11
 
 #!/usr/bin/python
 
 import getopt
 import sys
 import shutil
-
+import json_interface_generator
 
 def generate_file(input_file, output_file):
     shutil.copyfile(input_file, output_file)
-
+    json_interface_generator.process_file(output_file)
 
 def main(argv):
     input_file = ''
@@ -1611,7 +1762,164 @@ if __name__ == "__main__":
 
 ---
 
-# I'm envy of built in code generation
+# I'm envious of built in code generation
+
+
+<CodeSurfer theme={vsDark}>
+
+```cpp
+
+//# deriveInterface! ( json_serialize, json_deserialize )
+struct Person
+{
+    std::string name;
+    uint8_t age;
+    std::vector<std::string> phones;
+};
+
+```
+
+```cpp
+
+struct Person : public json_serializable, public json_deserializable
+{
+    std::string name;
+    uint8_t age;
+    std::vector<std::string> phones;
+
+    std::string to_json()
+    {
+        json value;
+        json['name'] = name;
+        json['age'] = age;
+        json['phones'] = phones;
+        return json.dump(4);
+    }
+
+    void from_json(const json& data)
+    {
+        name = data["name"].get<std::string>();
+        age = data["age"].get<uint8_t>();
+        phones = data["phones"].get<std::vector<std::string>>();
+    }
+
+    Person( const json& data )
+    {
+        name = data["name"].get<std::string>();
+        age = data["age"].get<uint8_t>();
+        phones = data["phones"].get<std::vector<std::string>>();
+    }
+};
+
+```
+
+```cpp 2
+
+struct Person : public json_serializable, public json_deserializable
+{
+    std::string name;
+    uint8_t age;
+    std::vector<std::string> phones;
+
+    std::string to_json()
+    {
+        json value;
+        json['name'] = name;
+        json['age'] = age;
+        json['phones'] = phones;
+        return json.dump(4);
+    }
+
+    void from_json(const json& data)
+    {
+        name = data["name"].get<std::string>();
+        age = data["age"].get<uint8_t>();
+        phones = data["phones"].get<std::vector<std::string>>();
+    }
+
+    Person( const json& data )
+    {
+        name = data["name"].get<std::string>();
+        age = data["age"].get<uint8_t>();
+        phones = data["phones"].get<std::vector<std::string>>();
+    }
+};
+
+```
+
+```cpp 7:29
+
+struct Person : public json_serializable, public json_deserializable
+{
+    std::string name;
+    uint8_t age;
+    std::vector<std::string> phones;
+
+    std::string to_json()
+    {
+        json value;
+        json['name'] = name;
+        json['age'] = age;
+        json['phones'] = phones;
+        return json.dump(4);
+    }
+
+    void from_json(const json& data)
+    {
+        name = data["name"].get<std::string>();
+        age = data["age"].get<uint8_t>();
+        phones = data["phones"].get<std::vector<std::string>>();
+    }
+
+    Person( const json& data )
+    {
+        name = data["name"].get<std::string>();
+        age = data["age"].get<uint8_t>();
+        phones = data["phones"].get<std::vector<std::string>>();
+    }
+};
+
+```
+
+```cpp
+
+struct Person : public json_serializable, public json_deserializable
+{
+    std::string name;
+    uint8_t age;
+    std::vector<std::string> phones;
+
+    std::string to_json()
+    {
+        json value;
+        json['name'] = name;
+        json['age'] = age;
+        json['phones'] = phones;
+        return json.dump(4);
+    }
+
+    void from_json(const json& data)
+    {
+        name = data["name"].get<std::string>();
+        age = data["age"].get<uint8_t>();
+        phones = data["phones"].get<std::vector<std::string>>();
+    }
+
+    Person( const json& data )
+    {
+        name = data["name"].get<std::string>();
+        age = data["age"].get<uint8_t>();
+        phones = data["phones"].get<std::vector<std::string>>();
+    }
+};
+
+```
+
+</CodeSurfer>
+
+---
+
+# I'm envious of built in code generation
 
 <Steps>
     <li>Now we can run stuff when a source has changed. </li>
@@ -1626,12 +1934,12 @@ if __name__ == "__main__":
 
 ---
 
-# I'm envy of linear typesystem of Rust
+# I'm envious of linear typesystem of Rust
 
 ---
 
 
-# I'm envy of linear typesystem of Rust
+# I'm envious of linear typesystem of Rust
 
 <Steps>
     <li>Okay great but what is a linear typesystem ? </li>
@@ -1645,7 +1953,7 @@ Linear types can change the world!, Philip Wadler
 
 ---
 
-# I'm envy of linear typesystem of Rust
+# I'm envious of linear typesystem of Rust
 
 <CodeSurfer theme={vsDark}>
 
@@ -1709,7 +2017,7 @@ pritnln!("{:?}", y); // OK
 
 ---
 
-# I'm envy of linear typesystem of Rust
+# I'm envious of linear typesystem of Rust
 
 Why this is soo important ?
 
@@ -1726,7 +2034,7 @@ style={{
 
 ---
 
-# I'm envy of linear typesystem of Rust
+# I'm envious of linear typesystem of Rust
 
 Lets see what is going on in depths of C++
 
@@ -1812,7 +2120,7 @@ T accumulate(InputIt first, InputIt last, T init)
 
 ---
 
-# I'm Envy of Linear typesystem of rust
+# I'm envious of Linear typesystem of rust
 
 This is what is happening
 
@@ -1828,7 +2136,7 @@ style={{
 
 ---
 
-# I'm Envy of Linear typesystem of rust
+# I'm envious of Linear typesystem of rust
 
 From C++ 20 and onwards
 
@@ -1864,7 +2172,7 @@ T accumulate(InputIt first, InputIt last, T init)
 
 ---
 
-# I'm Envy of Linear typesystem of rust
+# I'm envious of Linear typesystem of rust
 
 
 <Steps>
@@ -1876,7 +2184,7 @@ T accumulate(InputIt first, InputIt last, T init)
 
 ---
 
-# I'm Envy of Linear typesystem of rust
+# I'm envious of Linear typesystem of rust
 
 
 <CodeSurfer theme={vsDark}>
@@ -2072,7 +2380,7 @@ Linear str = ”Hello world”s; // ERROR
 
 ---
 
-# I'm Envy of Linear typesystem of rust
+# I'm envious of Linear typesystem of rust
 
 
 <CodeSurfer theme={vsDark}>
@@ -2153,6 +2461,21 @@ private:
 ```
 
 </CodeSurfer>
+
+---
+
+## Recap
+
+<Steps>
+    <li>Of course rust is a very big language, so we just scratched the surface here </li>
+    <li>There are many interersting concepts in rust especially about the memory managment and multithreading </li>
+    <li>Concepts of lifetimes is certainly a important point </li>
+    <li>But as of today.. </li>
+    <li>We saw how can we imporve build systems to achieve a package manager</li>
+    <li>Maybe we want to create some stuff from our code</li>
+    <li>Or we want single use for all of our data structures</li>
+    <li>Thank you for listening</li>
+</Steps>
 
 ---
 
