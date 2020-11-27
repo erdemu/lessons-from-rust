@@ -10,5 +10,5 @@ This is the thoughts of a envy C++ developer after being exposed to rust for a w
 
 Please go and watch his talks about the matter on youtube with these links: 
 
-(Linear Types - Ivan Cukic - Meeting C++ Secret Lightning Talks)[https://www.youtube.com/watch?v=sN8tI-zleFI]
-(Ivan Čukić—Move only C++ design)[https://www.youtube.com/watch?v=04HcVuqlZ5E]
+[Linear Types - Ivan Cukic - Meeting C++ Secret Lightning Talks](https://www.youtube.com/watch?v=sN8tI-zleFI)
+[Ivan Čukić—Move only C++ design](https://www.youtube.com/watch?v=04HcVuqlZ5E)
